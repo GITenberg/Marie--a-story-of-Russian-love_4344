@@ -1,0 +1,61 @@
+sudo: required
+dist: trusty
+language: ruby
+
+before_install:
+before_install:
+- gem install asciidoctor -v 1.5.2
+- gem install tilt
+- sudo pip install git+https://github.com/gitenberg-dev/gitberg
+- sudo pip install pillow
+- sudo pip install cssutils
+- sudo pip install docutils
+- sudo pip install roman
+- sudo pip install git+https://github.com/gitenberg-dev/pg-epubmaker
+script:
+- VERSION=`ruby -e "require 'yaml'; meta = YAML.load_file('metadata.yaml'); puts meta['_version'];"`
+- git clone https://github.com/gitenberg-dev/asciidoctor-htmlbook.git
+- sudo pip install -r asciidoctor-htmlbook/gitberg-machine/requirements.txt
+
+- /usr/bin/python -c "from gitenberg import travis; travis.build_epub()"
+- ebook-convert book.epub book.mobi
+- xvfb-run ebook-convert book.epub book.pdf
+branches:
+  only:
+  - master
+notifications:
+  webhooks:
+    urls:
+      - https://unglue.it/api/travisci/webhook
+    on_success: always
+    on_failure: never
+    on_start: never
+deploy:
+  skip_cleanup: true
+  provider: releases
+  api_key:
+    secure: Zxyphllfv09rh2JItIzRQO9NsgTx1/HXD2c/EBH8zOFnwf2Qgl3tM9ZmFogFX+76vyCsYcRr7B2LT+ve3f+p2y16vwxzkDfVM8keOajuUkji/8MgvQY/buhEfbSp1e8gCS+l1WMW+xpVdCMo3fV1q7LqSwKG9FI2Y++5xHreKNL+DvQHf/iZY4ihDMogg1EWf6+LCMVefSmXNLr6BThQF7cUaM9HL0/1toq/h+QQF+YfKydOZiOOpqPpmUnSxK5QptcYIrZjQoGKAJ63l03PATsFlo8Ydd39CWXkh5wyKabCTgXvDeTjvx5+Zh+aHP+o6vWZAx09/ZBNJR/UHdhVF005MIwMx6K8lQP+/x3rrIgH6g5hFlpQYyvaAncPRcuX7ym9IjDhh2QxUZ4v/1xkwZZAFPLwrnyMZLDM0vldwFmbCV5Gi6YWkGwdCwRlG9oyI+McbCnAkKH+ud+0jp0VRfn/qpy7sFtJ88GkNoKXna5raDQD193DVQexxlK0mH+VuDT7ryPQ0W9tidVFqTidwuXDSCtpnwBSkRA5EnJsGVSUgSEZ/Adc2hrSjmxyWq9Gdq/8teR+ZD7qP3FsLdKXx9jd6ih1H9GNCqZRHVJ5lD0Skk05AyY/zbgE5yETt5eUhFEf2HJ1b4uB2jO06w/FkYUpOLKcB1o5OmElsHxu+0Y=
+  file:
+    - book.epub
+    - book.mobi
+    - book.pdf
+  "on":
+    repo: GITenberg/Marie--a-story-of-Russian-love_4344
+addons:
+  apt:
+    packages:
+    - xsltproc
+    - xvfb
+    - calibre
+    - python-pip
+    - git
+    - python-dev
+    - libjpeg-dev
+    - libpng-dev
+    - libfreetype6
+    - libfreetype6-dev
+    - zlib1g-dev
+    - python-lxml
+    - libxml2-dev
+    - libxslt1-dev
+    - tidy
