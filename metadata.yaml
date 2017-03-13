@@ -1,11 +1,14 @@
 _repo: Marie--a-story-of-Russian-love_4344
-_version: 0.1.0
+_version: 0.2.0
 contributor:
   translator:
     agent_name: Zielinska, Marie H. de
     alias: De Zielinska, Marie H.
     gutenberg_agent_id: '1458'
     url: http://www.gutenberg.org/2009/agents/1458
+covers:
+- cover_type: generated
+  image_path: cover.png
 creator:
   author:
     agent_name: Pushkin, Aleksandr Sergeevich
@@ -21,6 +24,8 @@ creator:
     - http://www.museum.ru/Pushkin/
     - http://en.wikipedia.org/wiki/Aleksandr_Pushkin
 description: ''
+edition_identifiers:
+  edition_id: http://www.gutenberg.org/ebooks/4344#Marie--a-story-of-Russian-love
 gutenberg_issued: '2003-08-01'
 gutenberg_type: Text
 identifiers:
